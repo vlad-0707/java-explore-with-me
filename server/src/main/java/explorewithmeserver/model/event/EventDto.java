@@ -2,11 +2,13 @@ package explorewithmeserver.model.event;
 
 import explorewithmeserver.model.Location;
 import explorewithmeserver.model.category.Category;
+import explorewithmeserver.model.comments.CommentDto;
 import explorewithmeserver.model.user.UserShortDto;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,4 +30,5 @@ public class EventDto {
     private String state;
     private String title;
     private Long views;
+    private List<CommentDto> comments;
 }

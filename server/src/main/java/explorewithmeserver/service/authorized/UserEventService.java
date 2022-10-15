@@ -2,11 +2,16 @@ package explorewithmeserver.service.authorized;
 
 import explorewithmeserver.exception.ForbiddenException;
 import explorewithmeserver.exception.NotFoundException;
+import explorewithmeserver.model.comments.CommentDto;
+import explorewithmeserver.model.comments.NewCommentDto;
 import explorewithmeserver.model.event.*;
 import explorewithmeserver.model.request.RequestDto;
 
 import java.util.List;
 
+/**
+ * @author Andrey Boyarov
+ */
 public interface UserEventService {
     List<EventShortDto> getEventsByUserId(Long userId, Integer from, Integer size);
 
@@ -23,4 +28,8 @@ public interface UserEventService {
     RequestDto confirmRequest(Long userId, Long eventId, Long reqId);
 
     RequestDto rejectRequest(Long userId, Long eventId, Long reqId);
+
+    CommentDto addComment(Long userId, Long eventId, NewCommentDto newCommentDto) throws NotFoundException;
+
+    void deleteComment(Long userId, Long eventId, Long commentId) throws NotFoundException;
 }

@@ -5,6 +5,7 @@ import explorewithmeserver.model.Location;
 import explorewithmeserver.model.category.Category;
 import explorewithmeserver.model.event.*;
 import explorewithmeserver.repository.CategoryRepository;
+import explorewithmeserver.repository.CommentRepository;
 import explorewithmestats.model.ViewStatsDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -24,7 +26,11 @@ public class EventMapper {
 
     private final CategoryRepository categoryRepository;
 
+    private final CommentRepository commentRepository;
+
     private final EventClient client;
+
+    private final CommentMapper commentMapper;
 
 
     Converter<Long, Category> convertToCategory = src -> src
@@ -47,6 +53,7 @@ public class EventMapper {
                 .lon(event.getLongitude())
                 .build());
         setViews(event, eventDto);
+        convertComment(event, eventDto);
         return eventDto;
     }
 
@@ -109,6 +116,11 @@ public class EventMapper {
         }
     }
 
+    private void convertComment(Event event, EventDto eventDto) {
+        eventDto.setComments(commentRepository.findAllCommentsByEvent(event.getId()).stream()
+                .map(commentMapper::mapToCommentDto)
+                .collect(Collectors.toList()));
+    }
 
     private Category findCategory(Long id) {
         return categoryRepository.findById(id).orElseThrow();

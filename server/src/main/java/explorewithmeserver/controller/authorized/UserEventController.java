@@ -2,6 +2,8 @@ package explorewithmeserver.controller.authorized;
 
 import explorewithmeserver.exception.ForbiddenException;
 import explorewithmeserver.exception.NotFoundException;
+import explorewithmeserver.model.comments.CommentDto;
+import explorewithmeserver.model.comments.NewCommentDto;
 import explorewithmeserver.model.event.*;
 import explorewithmeserver.model.request.RequestDto;
 import explorewithmeserver.service.authorized.UserEventService;
@@ -68,5 +70,19 @@ public class UserEventController {
                                     @PathVariable Long eventId,
                                     @PathVariable Long reqId) {
         return userEventService.rejectRequest(userId, eventId, reqId);
+    }
+
+    @PostMapping("/{eventId}/comment")
+    public CommentDto addComment(@PathVariable Long userId,
+                                 @PathVariable Long eventId,
+                                 @RequestBody NewCommentDto newCommentDto) throws NotFoundException {
+        return userEventService.addComment(userId, eventId, newCommentDto);
+    }
+
+    @DeleteMapping("/{eventId}/comment/{commentId}")
+    public void deleteComment(@PathVariable Long userId,
+                              @PathVariable Long eventId,
+                              @PathVariable Long commentId) throws NotFoundException {
+        userEventService.deleteComment(userId, eventId, commentId);
     }
 }
