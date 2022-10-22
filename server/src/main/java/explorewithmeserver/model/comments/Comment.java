@@ -2,6 +2,7 @@ package explorewithmeserver.model.comments;
 
 import explorewithmeserver.model.event.Event;
 import explorewithmeserver.model.user.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
